@@ -1,0 +1,16 @@
+{
+  "payload": {
+    "schema_version": "1.0.0",
+    "envelope_id": "de_synthetic_01",
+    "state": "superseded",
+    "observed_at": "2026-07-27T12:00:00Z",
+    "issued_at": "2025-07-27T00:00:00Z",
+    "expires_at": "2099-01-01T00:00:00Z",
+    "superseded_by": "de_synthetic_04"
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "key_id": "fixture-2026-01",
+    "value": "tLQmNGJ3cFYrfMrO3QqHbPhKrmlHYiEYwXqR+d0o2ERMepjtUhmUnm5nNgmtX5+Mj4KwVcufAMswXVUY7pDEAA=="
+  }
+}

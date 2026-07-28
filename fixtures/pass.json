@@ -1,0 +1,45 @@
+{
+  "payload": {
+    "schema_version": "1.0.0",
+    "envelope_id": "de_synthetic_01",
+    "subject": {
+      "kind": "agent",
+      "id": "synthetic-pr-agent",
+      "version": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "authority": {
+      "type": "customer",
+      "id": "synthetic-customer"
+    },
+    "scope": {
+      "environment": "synthetic-staging",
+      "change": "fictional-pull-request-42"
+    },
+    "evidence_refs": [
+      {
+        "kind": "synthetic-test-report",
+        "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "decision": {
+      "status": "pass",
+      "conditions": [
+        "RETEST_BEFORE_SCOPE_CHANGE",
+        "NO_PRODUCTION_AUTHORIZATION"
+      ]
+    },
+    "lifecycle": {
+      "issued_at": "2025-07-27T00:00:00Z",
+      "expires_at": "2099-01-01T00:00:00Z"
+    },
+    "issuer": {
+      "id": "synthetic-verifier",
+      "key_id": "fixture-2026-01"
+    }
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "key_id": "fixture-2026-01",
+    "value": "+V1b1bySMffHG00cU/nBhogyY2bXu4QmC5OhxIagqr0e1WNFJp0O+8PjBESsHvb8K6ONwxoVsL9qZ56glwoNDA=="
+  }
+}
