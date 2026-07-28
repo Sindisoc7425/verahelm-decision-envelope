@@ -8,6 +8,8 @@
 - Defined the public-code license and private implementation boundary.
 - Bound the pull-request trust key to an independently configured SHA-256 fingerprint.
 - Expanded the first-party-sourced category comparison and documented where Verahelm is narrower.
+- Added local key fingerprinting and digest references for attestations and artifacts.
+- Documented GitHub ruleset, deployment-protection, and provenance integration boundaries.
 
 ## 0.3.0 — 2026-07-28
 

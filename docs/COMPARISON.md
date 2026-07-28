@@ -30,6 +30,14 @@ Reviewed 2026-07-28 against the linked first-party sources. This is a representa
 | System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
 |---|---|---|---|---|---|---|---|
 | [Cerbos](https://www.cerbos.dev/) | Evaluate application authorization policy | Principal, resource, action, context, and policy | Self-hosted policy decision point or Cerbos Hub | Allow/deny policy decision | Runtime access authorization | Policy, principal, and resource lifecycle | Portable open-source decision point; evidence-bound AI change authorization remains complementary |
+| [OpenFGA](https://openfga.dev/docs/fga) | Evaluate relationship-based application authorization | Authorization model, relationship tuples, principal, resource, and context | OpenFGA store or operator-selected deployment | Access check and decision log | Runtime resource authorization, including agent and MCP patterns | Store, model, and relationship lifecycle | Open-source decision service and model tooling; evidence-bound change authorization remains complementary |
+
+## Change enforcement
+
+| System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
+|---|---|---|---|---|---|---|---|
+| [GitHub rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets) | Enforce branch, tag, push, review, and status-check rules | Repository events, identities, refs, reviews, and check results | GitHub repository or organization configuration | Merge or push enforcement | Repository change authorization | Branch, tag, rule, and bypass lifecycle | Strong native enforcement; the underlying decision record is GitHub-scoped rather than a portable signed envelope |
+| [GitHub deployment environments](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments) | Gate deployment jobs with reviewers, timers, branch restrictions, or custom protection rules | Workflow job, environment, ref, reviewer, and protection-rule state | GitHub environment and deployment records | Deployment proceeds or waits/fails | Environment deployment authorization | Deployment, reviewer, environment, and protection-rule lifecycle | Direct enforcement within GitHub; third-party protection rules can consume Verahelm verification |
 
 ## MCP authorization
 
@@ -50,6 +58,9 @@ Reviewed 2026-07-28 against the linked first-party sources. This is a representa
 |---|---|---|---|---|---|---|---|
 | [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/) | Evaluate policy over structured input | JSON input, policy, and data | Embedded/server memory plus operator-managed bundles and data | Policy decision | Expresses policy decisions; authority and evidence binding are caller-defined | Policy/bundle lifecycle | Portable policy engine and decision API; signature/lifecycle envelope is complementary |
 | [Sigstore](https://docs.sigstore.dev/) | Sign and verify software artifacts and record signing events | Artifact digest and signing identity | Signed artifacts plus transparency-log records | Signature, certificate, inclusion evidence | Establishes artifact provenance; does not decide customer change scope | Certificate/log/artifact lifecycle | Strong portable verification primitives that can serve as referenced evidence |
+| [in-toto Attestation](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md) | Bind an immutable subject digest to a typed predicate | Subject digest, predicate type, and producer-defined predicate | Attestation file and selected signing/distribution system | Portable subject-bound statement | Predicate semantics are defined by its producer and consumer | Subject, predicate, and attestation lifecycle | Close structural substitute for the signed-object layer; it does not standardize Verahelm's customer-authority, expiry, revocation, or supersession semantics |
+| [SLSA](https://slsa.dev/spec/v1.2/) | Define supply-chain assurance levels and recommended provenance formats | Source, build, artifact, builder, and provenance data | Provenance attestations and verifier-selected policy | Verifiable build provenance and assurance evidence | Build-policy authorization remains consumer-defined | Source, build, artifact, and provenance lifecycle | Standard provenance that a Decision Envelope can reference; not an AI change-decision lifecycle |
+| [GitHub artifact attestations](https://docs.github.com/en/actions/concepts/security/artifact-attestations) | Generate and verify signed artifact provenance and related claims | Artifact digest and GitHub workflow identity | Sigstore bundle and GitHub attestation records | Signed provenance or software-bill-of-materials claim | Establishes build identity and provenance, not customer change authority | Workflow, artifact, certificate, and attestation lifecycle | GitHub CLI supports verification, including offline bundles; Decision Envelope lifecycle remains complementary |
 
 ## Repository scanners
 
@@ -75,7 +86,10 @@ Checked against official pages on 2026-07-28. Prices and packaging can change; p
 | [IBM watsonx.governance](https://www.ibm.com/products/watsonx-governance/pricing) | Configuration-dependent IBM pricing; no single comparable flat authorization-envelope price. |
 | Open Policy Agent | Open-source policy engine; hosting and operations are buyer-managed or vendor-specific. |
 | [Cerbos](https://www.cerbos.dev/pricing) | Open-source tier is free; Cerbos Hub currently lists $0/month and paid service from $25/month. |
+| OpenFGA | Open-source authorization system; hosted-service pricing is provider-specific. |
 | Sigstore | Open-source signing and transparency infrastructure; managed-service costs are provider-specific. |
+| in-toto Attestation and SLSA | Open specifications and tooling; implementation and hosting costs are operator- or provider-specific. |
+| GitHub rulesets, environments, and artifact attestations | Availability and limits depend on repository visibility and the applicable GitHub plan. |
 | [GitHub code security](https://docs.github.com/en/billing/concepts/product-billing/github-advanced-security) | Public-repository and paid private-repository packaging depends on the GitHub plan and metered products. |
 | Snyk Agent Scan | Apache-2.0 CLI; enterprise service pricing is account-specific. |
 | MCP authorization specification | Protocol specification; no product price. |

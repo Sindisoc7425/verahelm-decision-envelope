@@ -7,6 +7,12 @@ followed by the SHA-256 fingerprint of the exact trusted key file. Repository
 variables are configuration, not pull-request content. Protect changes to the
 workflow and required-check settings.
 
+Generate the value locally:
+
+```bash
+node cli/verahelm.mjs fingerprint decision-envelope-public-key.pem
+```
+
 Pin any external Action reference to a reviewed full commit SHA. Never use a floating branch or tag for an authorization gate.
 
 The template uses `pull_request_target` so the workflow definition remains on

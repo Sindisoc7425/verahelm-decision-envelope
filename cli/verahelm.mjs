@@ -1,22 +1,27 @@
 // SPDX-License-Identifier: Apache-2.0
+import { createHash } from "node:crypto";
 import { open, readFile, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { runCli as runVerifier, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
 
 const root = new URL("../", import.meta.url);
-const commands = new Set(["demo", "validate", "verify", "explain"]);
+const commands = new Set(["demo", "validate", "verify", "explain", "fingerprint"]);
 
-async function jsonFile(path, maximum = 65536) {
+async function boundedFile(path, maximum) {
   const metadata = await stat(path);
   if (!metadata.isFile() || metadata.size < 1 || metadata.size > maximum) {
     throw new Error("invalid_file");
   }
   const file = await open(path, "r");
   try {
-    return JSON.parse(await file.readFile("utf8"));
+    return await file.readFile();
   } finally {
     await file.close();
   }
+}
+
+async function jsonFile(path, maximum = 65536) {
+  return JSON.parse((await boundedFile(path, maximum)).toString("utf8"));
 }
 
 async function demo() {
@@ -53,20 +58,27 @@ async function explain(args) {
   return { status: "invalid", valid: false, errors: ["decision_envelope"] };
 }
 
+async function fingerprint(args) {
+  if (args.length !== 1) throw new Error("usage");
+  const digest = createHash("sha256").update(await boundedFile(args[0], 16384)).digest("hex");
+  return { status: "fingerprint", algorithm: "sha256", digest: `sha256:${digest}` };
+}
+
 export async function run(args) {
   const command = args[0];
   if (!commands.has(command)) throw new Error("usage");
   if (command === "verify") return runVerifier(args.slice(1));
   const result = command === "demo" ? await demo()
     : command === "validate" ? await validate(args.slice(1))
-      : await explain(args.slice(1));
+      : command === "explain" ? await explain(args.slice(1))
+        : await fingerprint(args.slice(1));
   process.stdout.write(`${JSON.stringify(result)}\n`);
   return result.valid === false ? 2 : 0;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   run(process.argv.slice(2)).then((code) => { process.exitCode = code; }).catch(() => {
-    process.stderr.write("verahelm: command failed; run with demo, validate, verify, or explain\n");
+    process.stderr.write("verahelm: command failed; run with demo, validate, verify, explain, or fingerprint\n");
     process.exitCode = 64;
   });
 }

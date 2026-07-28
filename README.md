@@ -50,6 +50,7 @@ The Action verifies a supplied envelope; it does not call the hosted API or
 issue a decision. Configure `VERAHELM_PUBLIC_KEY_SHA256` as a repository
 Actions variable containing `sha256:` followed by the SHA-256 fingerprint of
 the trusted key file. Pull-request content must not control this value.
+Generate the value with `node cli/verahelm.mjs fingerprint PUBLIC_KEY`.
 Use the complete base-controlled workflow in
 [`template/verahelm-change-gate.yml`](template/verahelm-change-gate.yml); it
 does not execute pull-request code.
@@ -61,9 +62,10 @@ node cli/verahelm.mjs demo
 node cli/verahelm.mjs validate fixtures/pass.json
 node cli/verahelm.mjs verify fixtures/pass.json --key fixtures/fixture-public-key.pem
 node cli/verahelm.mjs explain fixtures/pass.json
+node cli/verahelm.mjs fingerprint fixtures/fixture-public-key.pem
 ```
 
-All four commands run without network or subprocess access. Command behavior and
+All five commands run without network or subprocess access. Command behavior and
 exit codes are documented in [docs/CLI.md](docs/CLI.md).
 
 ## Result handling
@@ -130,5 +132,6 @@ effort with no response-time SLA.
 - [Decision Envelope specification](SPECIFICATION.md)
 - [Threat model](THREAT_MODEL.md)
 - [Versioning policy](VERSIONING.md)
+- [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)
 
 Reusable public code is licensed only as stated in [LICENSE](LICENSE).

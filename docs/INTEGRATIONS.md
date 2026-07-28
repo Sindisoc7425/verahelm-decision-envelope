@@ -23,4 +23,30 @@ An adapter must:
 
 Adapter requests must use fictional field examples.
 
-The included [`evidence-digest` adapter](../adapters/README.md) supports local digest references for SARIF, JUnit, OPA, and synthetic evaluation reports. It does not parse, upload, or judge the artifact.
+The included [`evidence-digest` adapter](../adapters/README.md) supports local digest references for SARIF, JUnit, OPA, synthetic evaluation reports, artifacts, and attestations. It does not parse, upload, or judge the artifact.
+
+## GitHub change enforcement
+
+Use [`template/verahelm-change-gate.yml`](../template/verahelm-change-gate.yml)
+as a required status check in a GitHub ruleset. Verahelm verifies the signed
+record; the ruleset enforces whether the pull request may merge. Keep the
+workflow definition, trusted key fingerprint, and required-check configuration
+outside pull-request control.
+
+GitHub environments and deployment protection rules remain the deployment
+enforcement layer. A passing Decision Envelope is evidence for that workflow;
+it does not replace required reviewers, environment restrictions, or custom
+deployment protection rules.
+
+## Attestations and provenance
+
+An in-toto statement, SLSA provenance file, Sigstore bundle, or GitHub artifact
+attestation can remain in its existing system. Verify it with its native tool,
+then create a local digest reference:
+
+```bash
+node adapters/evidence-digest.mjs attestation provenance.json
+```
+
+The adapter hashes bytes only. It does not validate provenance, signatures,
+builder identity, policy, or evidence sufficiency.

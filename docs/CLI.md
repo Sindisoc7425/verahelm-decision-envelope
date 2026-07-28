@@ -1,6 +1,6 @@
 # CLI contract
 
-The CLI has four commands:
+The CLI has five commands:
 
 | Command | Network | Purpose |
 |---|---:|---|
@@ -8,6 +8,7 @@ The CLI has four commands:
 | `validate FILE` | No | Validate the public Decision Envelope contract. |
 | `verify ENVELOPE --key KEY [--status STATUS] [--at TIME] [--subject-id ID --subject-version DIGEST]` | No | Verify schema, Ed25519 signature, optional expected-subject binding, lifecycle, and declared decision. |
 | `explain FILE` | No | Print declared public envelope fields without evaluating them. |
+| `fingerprint PUBLIC_KEY` | No | Compute the bounded key-file SHA-256 value used by the GitHub Action trust configuration. |
 
 All commands run locally without network or subprocess access. The CLI does not generate evidence, call the hosted decision service, or contain or approximate Verahelm's private evaluation logic.
 
