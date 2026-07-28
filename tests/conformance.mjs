@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { verifyAction } from "../action/index.mjs";
 import { validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
 
 const root = new URL("../", import.meta.url);
@@ -61,4 +63,38 @@ assert.equal((await verifyEnvelope(
 const tamperedStatus = await fixture("revoked-status");
 tamperedStatus.payload.state = "active";
 assert.equal((await verifyEnvelope(await fixture("pass"), publicKey, at, tamperedStatus)).status, "tampered");
-process.stdout.write("conformance=pass cases=16 network=none dependencies=none\n");
+
+const invalidRevocation = await fixture("pass");
+invalidRevocation.payload.lifecycle.revoked_at = "2025-01-01T00:00:00Z";
+assert(validateEnvelope(invalidRevocation).includes("lifecycle_order"));
+
+const selfSupersession = await fixture("pass");
+selfSupersession.payload.lifecycle.superseded_by = selfSupersession.payload.envelope_id;
+assert(validateEnvelope(selfSupersession).includes("lifecycle_relation"));
+
+const statusUrlMismatch = await fixture("pass");
+statusUrlMismatch.status_url = "/v1/decision-envelopes/de_synthetic_99/status";
+assert(validateEnvelope(statusUrlMismatch).includes("status_url"));
+
+const workspace = new URL("../", import.meta.url).pathname;
+const keyDigest = `sha256:${createHash("sha256").update(publicKey).digest("hex")}`;
+const actionEnvironment = {
+  GITHUB_WORKSPACE: workspace,
+  INPUT_ENVELOPE: "fixtures/pass.json",
+  "INPUT_PUBLIC-KEY": "fixtures/fixture-public-key.pem",
+  "INPUT_PUBLIC-KEY-SHA256": keyDigest,
+  INPUT_AT: "2026-07-27T12:00:00Z",
+  "INPUT_SUBJECT-ID": "synthetic-pr-agent",
+  "INPUT_SUBJECT-VERSION": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+};
+assert.equal((await verifyAction(actionEnvironment)).status, "pass");
+await assert.rejects(
+  verifyAction({ ...actionEnvironment, "INPUT_PUBLIC-KEY-SHA256": `sha256:${"0".repeat(64)}` }),
+  /public_key_fingerprint_mismatch/
+);
+await assert.rejects(
+  verifyAction({ ...actionEnvironment, "INPUT_PUBLIC-KEY-SHA256": "" }),
+  /public_key_fingerprint_required/
+);
+
+process.stdout.write("conformance=pass cases=22 network=none dependencies=none\n");

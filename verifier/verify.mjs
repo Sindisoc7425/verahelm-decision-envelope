@@ -105,6 +105,11 @@ export function validateEnvelope(document) {
   if (timestamp(payload?.lifecycle?.issued_at) &&
       timestamp(payload?.lifecycle?.expires_at) &&
       Date.parse(payload.lifecycle.expires_at) <= Date.parse(payload.lifecycle.issued_at)) errors.push("lifecycle_order");
+  if (timestamp(payload?.lifecycle?.revoked_at) &&
+      timestamp(payload?.lifecycle?.issued_at) &&
+      Date.parse(payload.lifecycle.revoked_at) < Date.parse(payload.lifecycle.issued_at)) errors.push("lifecycle_order");
+  if (payload?.lifecycle?.supersedes === payload?.envelope_id ||
+      payload?.lifecycle?.superseded_by === payload?.envelope_id) errors.push("lifecycle_relation");
   if (!exactKeys(payload?.issuer, objectKeys.issuer) ||
       !text(payload?.issuer?.id, 160) ||
       !text(payload?.issuer?.key_id, 80)) errors.push("issuer");
@@ -114,7 +119,7 @@ export function validateEnvelope(document) {
       !/^[A-Za-z0-9+/]{86}==$/.test(signature?.value ?? "") ||
       signature?.key_id !== payload?.issuer?.key_id) errors.push("signature");
   if (document.status_url !== undefined &&
-      !/^\/v1\/decision-envelopes\/de_[a-z0-9_]{8,80}\/status$/.test(document.status_url)) errors.push("status_url");
+      document.status_url !== `/v1/decision-envelopes/${payload?.envelope_id}/status`) errors.push("status_url");
   return [...new Set(errors)];
 }
 

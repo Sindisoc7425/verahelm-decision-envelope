@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { readFile } from "node:fs/promises";
+import { open, readFile, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { runCli as runVerifier, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
 
@@ -7,9 +7,16 @@ const root = new URL("../", import.meta.url);
 const commands = new Set(["demo", "validate", "verify", "explain"]);
 
 async function jsonFile(path, maximum = 65536) {
-  const text = await readFile(path, "utf8");
-  if (Buffer.byteLength(text) > maximum) throw new Error("file_too_large");
-  return JSON.parse(text);
+  const metadata = await stat(path);
+  if (!metadata.isFile() || metadata.size < 1 || metadata.size > maximum) {
+    throw new Error("invalid_file");
+  }
+  const file = await open(path, "r");
+  try {
+    return JSON.parse(await file.readFile("utf8"));
+  } finally {
+    await file.close();
+  }
 }
 
 async function demo() {
