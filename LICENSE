@@ -1,0 +1,14 @@
+Verahelm public repository licensing
+
+Copyright 2026 Verahelm Holdings LLC.
+
+The executable code in `action/`, `adapters/`, `cli/`, `scripts/`, `tests/`, and
+`verifier/` is licensed under the Apache License, Version 2.0. The full text is
+in `LICENSES/Apache-2.0.txt`.
+
+Documentation, specifications, schemas, examples, fixtures, names, and marks are
+copyright Verahelm Holdings LLC and are provided for public inspection and
+interoperability testing. No license to Verahelm's private engine, methods,
+thresholds, prompts, production service, data, or trademarks is granted.
+
+SPDX identifier for the reusable code: Apache-2.0

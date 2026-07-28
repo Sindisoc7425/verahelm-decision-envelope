@@ -1,0 +1,27 @@
+name: Verahelm Decision Envelope verifier
+description: Verify one Decision Envelope offline; no evaluation or authorization is performed.
+inputs:
+  envelope:
+    description: Repository-relative path to the Decision Envelope
+    required: true
+  public-key:
+    description: Repository-relative path to the Ed25519 public key
+    required: true
+  at:
+    description: Optional RFC 3339 verification time for deterministic tests
+    required: false
+  status:
+    description: Optional repository-relative signed lifecycle-status document
+    required: false
+  subject-id:
+    description: Expected subject identifier
+    required: true
+  subject-version:
+    description: Expected immutable subject-version digest
+    required: true
+runs:
+  using: node20
+  main: action/index.mjs
+branding:
+  icon: check-square
+  color: gray-dark
