@@ -1,7 +1,7 @@
 name: Verahelm change gate
 
 on:
-  pull_request:
+  pull_request_target:
 
 permissions:
   contents: read
@@ -11,7 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Check out the proposed revision without credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
       - name: Bind expected pull-request subject
         id: subject
         env:
@@ -19,9 +23,10 @@ jobs:
           SUBJECT_REVISION: ${{ github.event.pull_request.head.sha }}
         run: printf 'version=sha256:%s\n' "$(printf '%s' \"$SUBJECT_ID@$SUBJECT_REVISION\" | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
       - name: Verify Decision Envelope
-        uses: Verahelm/verahelm-decision-envelope@597f89af2db48e39982677e5550dbfe4ca690c9a
+        uses: Verahelm/verahelm-decision-envelope@dc25784c400c0140aa175d6a5e80a6f973c59c9c
         with:
           envelope: decision-envelope.json
           public-key: decision-envelope-public-key.json
+          public-key-sha256: ${{ vars.VERAHELM_PUBLIC_KEY_SHA256 }}
           subject-id: ${{ github.repository }}
           subject-version: ${{ steps.subject.outputs.version }}

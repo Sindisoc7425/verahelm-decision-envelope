@@ -70,7 +70,7 @@ Anything not listed is excluded.
 
 - Documentation, schema, verifier, Action, and tests were authored in a new clean directory for this release.
 - Fixtures use fictional identifiers and digests. Their Ed25519 key pair was generated solely for conformance; only the public key and signatures are retained.
-- Official comparison sources were checked on 2026-07-27 and are linked directly.
+- Official comparison sources were checked on 2026-07-28 and are linked directly.
 - No private repository was copied, forked, filtered, converted, or initialized here.
 
 ## Denylist

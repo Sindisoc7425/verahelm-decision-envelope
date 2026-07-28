@@ -1,31 +1,42 @@
 # Toolchain comparison
 
-Reviewed 2026-07-27 against the linked official sources. This is a category map, not a product ranking. Deployment options and retention terms vary; buyers should verify current vendor terms.
+Reviewed 2026-07-28 against the linked first-party sources. This is a representative category map, not an exhaustive vendor list or product ranking. Deployment options and retention terms vary; buyers should verify current vendor terms.
 
 ## Evaluation and testing
 
 | System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
 |---|---|---|---|---|---|---|---|
 | [OpenAI Evals](https://github.com/openai/evals) | Define and run model evaluations | Test samples, model outputs, graders | Operator-selected evaluation environment and artifacts | Evaluation results | Produces evidence; does not define customer authorization | Evaluation-run lifecycle | Results can be exported; authorization verification is outside the project |
+| [Promptfoo](https://www.promptfoo.dev/docs/intro/) | Evaluate and red-team prompts, models, RAG systems, and agents | Test cases, target outputs, assertions, and red-team configuration | Local open-source execution or selected enterprise service | Evaluation matrices, scores, and vulnerability reports | Produces evidence and runtime guardrail signals; customer change authority remains external | Evaluation, scan, and monitoring lifecycle | CLI, library, and CI integrations produce portable evidence; no Decision Envelope contract claimed |
 | [LangSmith evaluation](https://docs.langchain.com/langsmith/evaluation) | Evaluate application behavior through datasets, runs, and evaluators | Examples, application outputs, evaluator inputs | LangSmith project/dataset records under the selected deployment | Scores, feedback, experiment comparisons | Produces evidence; authorization remains external | Dataset and experiment lifecycle | Export and API interfaces; no Decision Envelope contract claimed |
+| [Giskard](https://www.giskard.ai/) | Continuously test and red-team AI agents for security and quality failures | Agent access plus selected tests and evaluation context | Giskard service or open-source testing components, depending on product | Findings, severity-ranked reports, and go/no-go evaluation reports | Produces a security-evaluation verdict; customer authority and portable authorization lifecycle remain separate | Test, finding, and report lifecycle | Test artifacts can serve as evidence; signed subject-bound authorization is complementary |
 
 ## Observability
 
 | System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
 |---|---|---|---|---|---|---|---|
 | [Langfuse observability](https://langfuse.com/docs/observability/overview) | Capture and inspect traces, spans, generations, and metrics | Runtime telemetry | Managed or self-hosted project telemetry | Trace and metric records | Observes behavior; authorization remains external | Trace/project retention lifecycle | APIs and exports; external policy decides change authority |
+| [Braintrust](https://www.braintrust.dev/docs) | Instrument, observe, evaluate, and improve agents | Traces, datasets, outputs, scorers, and feedback selected by the customer | Braintrust projects and configured data management | Traces, scores, experiments, alerts, and review records | Produces operational and evaluation evidence; customer change authorization remains external | Project, trace, experiment, and retention lifecycle | SDKs, exports, and integrations provide evidence that a Decision Envelope can reference |
 
 ## Runtime security
 
 | System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
 |---|---|---|---|---|---|---|---|
 | [Lakera Guard](https://docs.lakera.ai/guard) | Detect and classify runtime prompt and content risks | Runtime request content selected by the caller | Vendor-service handling governed by current service settings and terms | Detection result and category | Runtime allow/block signal; customer change authority remains external | Request and policy lifecycle | API result; portable authorization object is not the documented primary job |
+| [Guardrails AI](https://guardrailsai.com/guardrails/docs) | Validate or mitigate LLM inputs and outputs and produce structured output | Application inputs, outputs, validators, and guard configuration | Application-controlled Python or Guardrails Server deployment | Validator outcomes, mitigations, and structured data | Runtime input/output control; release or change authority remains external | Request and guard-configuration lifecycle | Open framework and validator ecosystem; outputs can be referenced as evidence |
 
 ## Runtime authorization
 
 | System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
 |---|---|---|---|---|---|---|---|
-| [Cerbos](https://www.cerbos.dev/product) | Evaluate application authorization policy | Principal, resource, action, context, and policy | Self-hosted policy decision point or Cerbos Hub | Allow/deny policy decision | Runtime access authorization | Policy, principal, and resource lifecycle | Portable open-source decision point; evidence-bound AI change authorization remains complementary |
+| [Cerbos](https://www.cerbos.dev/) | Evaluate application authorization policy | Principal, resource, action, context, and policy | Self-hosted policy decision point or Cerbos Hub | Allow/deny policy decision | Runtime access authorization | Policy, principal, and resource lifecycle | Portable open-source decision point; evidence-bound AI change authorization remains complementary |
+
+## MCP authorization
+
+| System | Primary job | Required data | Storage model | Output | Authorization semantics | Lifecycle | Portability and verification |
+|---|---|---|---|---|---|---|---|
+| [MCP authorization specification](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization) | Define OAuth-based authorization for HTTP MCP transports | Client, resource-server, authorization-server, token, and scope context | Implementer-selected OAuth and MCP state | Access tokens and protocol authorization outcomes | Resource access on behalf of a resource owner | Token, client, and authorization-server lifecycle | Interoperable transport authorization; evidence-bound tool-change admission remains a separate job |
+| [Cloudflare Agents MCP authorization](https://developers.cloudflare.com/agents/model-context-protocol/protocol/authorization/) | Add OAuth authorization to remote MCP servers | User identity, OAuth client, scopes, tokens, and MCP requests | Cloudflare application and authorization state | Authorized MCP access | Runtime access to MCP resources and tools | OAuth token and server lifecycle | Standards-based MCP access; a signed change-decision record is complementary |
 
 ## Governance and GRC
 
@@ -49,20 +60,26 @@ Reviewed 2026-07-27 against the linked official sources. This is a category map,
 
 ## Public pricing references
 
-Checked against official pages on 2026-07-27. Prices and packaging can change; procurement should recheck the linked source.
+Checked against official pages on 2026-07-28. Prices and packaging can change; procurement should recheck the linked source.
 
 | System | Public pricing evidence |
 |---|---|
 | OpenAI Evals | Open-source project; no hosted authorization product price is defined by the repository. |
+| [Promptfoo](https://www.promptfoo.dev/pricing/) | Community tooling is free; the public page lists enterprise and on-premise packaging with custom pricing. |
 | [LangSmith](https://www.langchain.com/pricing) | Developer currently starts at $0 per seat per month, then usage-based charges; paid team and enterprise packaging varies. |
 | [Langfuse](https://langfuse.com/pricing) | Public self-service tiers currently include Free, $29/month, and $199/month before usage or enterprise terms. |
+| [Braintrust](https://www.braintrust.dev/pricing) | Public pricing currently lists a $0 plan and Pro at $249/month before applicable usage charges. |
 | [Lakera](https://platform.lakera.ai/pricing) | Public pricing page; applicable plan and usage price must be confirmed there. |
+| [Giskard](https://www.giskard.ai/pricing) | Public pricing currently lists Free and Enterprise tiers; enterprise price is not stated publicly. |
+| Guardrails AI | Open framework; hosted or enterprise pricing was not stated on the reviewed documentation page. |
 | [IBM watsonx.governance](https://www.ibm.com/products/watsonx-governance/pricing) | Configuration-dependent IBM pricing; no single comparable flat authorization-envelope price. |
 | Open Policy Agent | Open-source policy engine; hosting and operations are buyer-managed or vendor-specific. |
 | [Cerbos](https://www.cerbos.dev/pricing) | Open-source tier is free; Cerbos Hub currently lists $0/month and paid service from $25/month. |
 | Sigstore | Open-source signing and transparency infrastructure; managed-service costs are provider-specific. |
 | [GitHub code security](https://docs.github.com/en/billing/concepts/product-billing/github-advanced-security) | Public-repository and paid private-repository packaging depends on the GitHub plan and metered products. |
 | Snyk Agent Scan | Apache-2.0 CLI; enterprise service pricing is account-specific. |
+| MCP authorization specification | Protocol specification; no product price. |
+| Cloudflare Agents MCP authorization | Included within Cloudflare's applicable platform and usage pricing rather than sold as a Decision Envelope service. |
 | Verahelm | Developer $49/month for 60 units; Professional $149/month for 300 units. Hard daily and monthly caps; no automatic overage. |
 
 ## Verahelm boundary
@@ -77,3 +94,9 @@ Verahelm does not replace these systems or assert that their evidence is correct
 - a verifiable signature.
 
 The structural distinction is the output contract: a portable Decision Envelope for a bounded authorization decision, rather than another raw-content warehouse. The public verifier demonstrates contract and lifecycle handling only; it reveals no private analysis or scoring implementation.
+
+Verahelm is narrower than the systems above. It does not generate evaluations,
+capture traces, inspect runtime content, enforce general application policy, or
+replace OAuth. Its public advantage is useful only when a customer needs a
+portable signed record binding selected evidence to an exact subject, customer
+authority, scope, conditions, and lifecycle.

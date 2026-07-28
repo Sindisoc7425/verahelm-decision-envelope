@@ -12,7 +12,7 @@ Releases use semantic versioning.
 Consumers should pin the Action to the full 40-character commit SHA:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@597f89af2db48e39982677e5550dbfe4ca690c9a
+- uses: Verahelm/verahelm-decision-envelope@dc25784c400c0140aa175d6a5e80a6f973c59c9c
 ```
 
 The complete subject-binding and verification workflow is in

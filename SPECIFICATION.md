@@ -37,6 +37,10 @@ The signature input is UTF-8 JSON with:
 
 The included verifier is the executable reference for this contract.
 
+The verification key is a trust anchor. Pull-request content may supply a key
+file only when its exact SHA-256 fingerprint is independently configured and
+checked outside pull-request content.
+
 ## Fail-closed result order
 
 1. malformed input or unknown fields → `invalid`;

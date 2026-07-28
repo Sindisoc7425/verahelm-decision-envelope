@@ -10,10 +10,10 @@
 
 ## In scope
 
-Field injection, unknown properties, signature substitution, payload modification, future issuance, stale authorization, ambiguous subject versions, malicious local files, and accidental repository disclosure.
+Field injection, unknown properties, signature substitution, trust-key replacement, payload modification, future issuance, stale authorization, ambiguous subject versions, malicious local files, and accidental repository disclosure.
 
 ## Out of scope
 
-Compromised signing keys, dishonest authorities, false source evidence, endpoint compromise, host compromise, and enforcement of signed conditions by downstream systems.
+Compromised trusted signing keys, dishonest authorities, false source evidence, endpoint compromise, host compromise, and enforcement of signed conditions by downstream systems.
 
 The verifier parses one bounded JSON document and one Ed25519 public key. It does not dereference evidence or execute supplied content.

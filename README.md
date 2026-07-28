@@ -37,16 +37,22 @@ steps:
       SUBJECT_ID: ${{ github.repository }}
       SUBJECT_REVISION: ${{ github.event.pull_request.head.sha }}
     run: printf 'version=sha256:%s\n' "$(printf '%s' \"$SUBJECT_ID@$SUBJECT_REVISION\" | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-  - uses: Verahelm/verahelm-decision-envelope@597f89af2db48e39982677e5550dbfe4ca690c9a
+  - uses: Verahelm/verahelm-decision-envelope@dc25784c400c0140aa175d6a5e80a6f973c59c9c
     with:
       envelope: path/to/decision-envelope.json
       public-key: path/to/public-key.pem
+      public-key-sha256: ${{ vars.VERAHELM_PUBLIC_KEY_SHA256 }}
       subject-id: ${{ github.repository }}
       subject-version: ${{ steps.subject.outputs.version }}
 ```
 
 The Action verifies a supplied envelope; it does not call the hosted API or
-issue a decision.
+issue a decision. Configure `VERAHELM_PUBLIC_KEY_SHA256` as a repository
+Actions variable containing `sha256:` followed by the SHA-256 fingerprint of
+the trusted key file. Pull-request content must not control this value.
+Use the complete base-controlled workflow in
+[`template/verahelm-change-gate.yml`](template/verahelm-change-gate.yml); it
+does not execute pull-request code.
 
 ## Local commands
 
@@ -98,6 +104,8 @@ See [PRIVACY_BOUNDARY.md](PRIVACY_BOUNDARY.md).
 
 - Ed25519 verification runs offline.
 - The Action requires only `contents: read`.
+- A trusted key fingerprint outside pull-request content prevents replacement
+  of both the key and envelope.
 - Unknown fields, unsupported versions, invalid signatures, and invalid
   lifecycle states fail closed.
 - Fixtures are fictional and test only the published verification contract.
