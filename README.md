@@ -34,6 +34,8 @@ additional endpoint or disclosure of repository content is required.
 
 [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 after the fictional local demo succeeds.
+Eligible testing keys provide 21 lifetime units—up to seven base three-unit
+pull-request or agent-change gates. No card is required.
 
 ![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
 
@@ -51,6 +53,11 @@ The public contract accepts structured summaries and digests. It defines no
 fields for repositories, source code, prompts, traces, files, datasets, or raw
 records. The fictional quick start runs locally without network access after
 the repository is cloned.
+
+Tested digest-only example mappings are available for
+[Promptfoo, OPA, SARIF, Sigstore/in-toto, and SLSA](docs/INTEGRATIONS.md).
+They bind public artifacts to digests and coarse status references; they do not
+upload raw evidence or claim native verification by Verahelm.
 
 ## Run without cloning
 
@@ -174,13 +181,16 @@ See [PRIVACY_BOUNDARY.md](PRIVACY_BOUNDARY.md).
 
 | Plan | Price | Included units | Limits |
 |---|---|---|---|
-| Developer | $49/month | 60/month; 10/day | 5 requests/10 seconds; 30/minute; concurrency 2; 1 key; 12,288 bytes; 6 seconds |
-| Professional | $149/month | 300/month; 34/day | 13 requests/10 seconds; 90/minute; concurrency 5; 5 keys; 16,384 bytes; 8 seconds; metadata export |
+| Developer | $49/month | 300/month; 30/day | 5 requests/10 seconds; 30/minute; concurrency 2; 1 key; 12,288 bytes; 6 seconds |
+| Professional | $149/month | 1,500/month; 150/day | 13 requests/10 seconds; 90/minute; concurrency 5; 5 keys; 16,384 bytes; 8 seconds; metadata export |
 
 Base profile cost is 1, 2, or 3 units. Each additional started 4,096-byte request
 block adds one unit; boundary stress adds one unit per sample after the first.
 Units do not roll over, and there is no automatic overage. Email support is best
 effort with no response-time SLA.
+At the base request size, the plans cover up to 100 and 500 three-unit
+pull-request or agent-change gates per billing period, respectively, subject to
+daily and rate caps.
 
 ## Documentation
 
