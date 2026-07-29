@@ -1,6 +1,6 @@
 # Public release manifest
 
-Candidate: `verahelm-decision-envelope-public` 0.7.0
+Candidate: `verahelm-decision-envelope-public` 0.8.0
 Boundary: explicit allowlist; default deny; no repository history.
 
 ## Allowlist
@@ -23,6 +23,7 @@ GOVERNANCE.md
 LICENSE
 LICENSES/Apache-2.0.txt
 PRIVACY_BOUNDARY.md
+PUBLIC_DISCLOSURE_CHECKLIST.md
 PUBLIC_RELEASE_MANIFEST.md
 README.md
 SECURITY.md
@@ -35,6 +36,7 @@ action.yml
 action/index.mjs
 adapters/README.md
 adapters/evidence-digest.mjs
+adapters/measurement-aggregate.mjs
 cli/verahelm.mjs
 demo-pr/README.md
 docs/ARCHITECTURE.md
@@ -42,12 +44,21 @@ docs/ACTION.md
 docs/CLI.md
 docs/COMPARISON.md
 docs/INTEGRATIONS.md
+docs/INTEROPERABILITY.md
 docs/LIMITATIONS.md
+docs/MEASUREMENT.md
 docs/PACKAGE.md
 docs/RELEASES.md
 docs/ROADMAP.md
 docs/assets/repository-preview.svg
 docs/index.md
+examples/integrations/opa-result.json
+examples/integrations/promptfoo-result.json
+examples/integrations/report.sarif.json
+examples/integrations/sigstore-bundle-reference.json
+examples/integrations/slsa-provenance-reference.json
+examples/interoperability/in-toto-envelope-reference.json
+examples/measurement/fictional-contributions.json
 fixtures/blocked.json
 fixtures/expired.json
 fixtures/fixture-public-key.json
@@ -63,10 +74,13 @@ release/REPRODUCIBLE_BUILD.md
 release/SHA256SUMS
 schemas/decision-envelope.schema.json
 schemas/decision-status.schema.json
+schemas/measurement-contribution.schema.json
 template/README.md
 template/verahelm-change-gate.yml
 tests/cli.mjs
 tests/conformance.mjs
+tests/integrations.mjs
+tests/measurement.mjs
 tests/package.mjs
 tests/release-gate.mjs
 verifier/json.mjs
@@ -91,6 +105,8 @@ Excluded categories include private methods, scoring, rules, thresholds, weights
 - No `.git`, VCS metadata, symlink, executable file, archive, source map, binary, dependency directory, or build output.
 - No network or subprocess capability in executable JavaScript.
 - No private key or common credential pattern.
+- No suspicious high-entropy value assigned to a credential-like field.
+- In-memory negative controls prove representative secret and forbidden-file checks fail closed.
 - The exact file set equals this allowlist; additions fail closed.
 - All JSON parses; all seven fixtures are fictional and pass the applicable contract or lifecycle test.
 - Release gate: `node tests/release-gate.mjs`.

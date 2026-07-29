@@ -42,7 +42,7 @@ the repository is cloned.
 ## Run without cloning
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.7.0/verahelm-decision-envelope-0.7.0.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.8.0/verahelm-decision-envelope-0.8.0.tgz -- verahelm-envelope demo
 ```
 
 The version-pinned package is dependency-free and attached to an immutable,
@@ -175,6 +175,9 @@ effort with no response-time SLA.
 - [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 - [Decision Envelope specification](SPECIFICATION.md)
 - [GitHub Action contract](docs/ACTION.md)
+- [Digest-only integration recipes](docs/INTEGRATIONS.md)
+- [DSSE and in-toto mapping](docs/INTEROPERABILITY.md)
+- [Opt-in aggregate measurement](docs/MEASUREMENT.md)
 - [Threat model](THREAT_MODEL.md)
 - [Versioning policy](VERSIONING.md)
 - [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)
